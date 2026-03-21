@@ -330,7 +330,15 @@ function applyAndRender(append = false) {
   loadMoreWrap.style.display = paged.length < total ? 'block' : 'none';
   document.getElementById('loadMoreBtn').textContent = `Load More Watches (${total - paged.length} remaining)`;
 
-  renderProducts(paged, document.getElementById('productsGrid'));
+  if (append) {
+    // For load more, only render the new products starting from the previous page end
+    const previousPageEnd = (currentPage - 1) * PAGE_SIZE;
+    const newProducts = filtered.slice(previousPageEnd, currentPage * PAGE_SIZE);
+    renderProducts(newProducts, document.getElementById('productsGrid'), true);
+  } else {
+    // For initial load, render all products up to current page
+    renderProducts(paged, document.getElementById('productsGrid'), false);
+  }
   updateActiveTags();
 }
 

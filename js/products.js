@@ -13,17 +13,29 @@ let filteredProducts = [];
 export async function loadProducts() {
   if (allProducts.length > 0) return allProducts;
 
-  const basePath = getBasePath();
-  const res = await fetch(`${basePath}data/products.json`);
-  if (!res.ok) throw new Error('Failed to load products');
+  // Try multiple paths to handle different deployment scenarios
+  const paths = [
+    'data/products.json',
+    '../data/products.json'
+  ];
+
+  let res = null;
+  for (const path of paths) {
+    try {
+      res = await fetch(path);
+      if (res.ok) break;
+    } catch (e) {
+      console.warn(`Failed to fetch from ${path}:`, e);
+    }
+  }
+
+  if (!res || !res.ok) {
+    throw new Error('Failed to load products from any path');
+  }
+  
   allProducts = await res.json();
   filteredProducts = [...allProducts];
   return allProducts;
-}
-
-function getBasePath() {
-  const path = window.location.pathname;
-  return path.includes('/pages/') ? '../' : '';
 }
 
 // ---- Render a single product card ----
@@ -84,10 +96,10 @@ export function renderSkeletons(container, count = 8) {
 }
 
 // ---- Render products grid ----
-export function renderProducts(products, container) {
+export function renderProducts(products, container, append = false) {
   if (!container) return;
 
-  if (products.length === 0) {
+  if (products.length === 0 && !append) {
     container.innerHTML = `
       <div style="grid-column:1/-1;text-align:center;padding:60px 20px">
         <div style="font-size:3rem;margin-bottom:16px">🔍</div>
@@ -98,11 +110,17 @@ export function renderProducts(products, container) {
     return;
   }
 
-  container.innerHTML = products.map(p => renderProductCard(p)).join('');
+  const html = products.map(p => renderProductCard(p)).join('');
+  
+  if (append) {
+    container.innerHTML += html;
+  } else {
+    container.innerHTML = html;
+  }
 
   // Trigger reveal animation
   requestAnimationFrame(() => {
-    container.querySelectorAll('.reveal').forEach((el, i) => {
+    container.querySelectorAll('.reveal:not(.visible)').forEach((el, i) => {
       setTimeout(() => el.classList.add('visible'), i * 50);
     });
   });
