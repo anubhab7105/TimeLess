@@ -13,29 +13,41 @@ let filteredProducts = [];
 export async function loadProducts() {
   if (allProducts.length > 0) return allProducts;
 
-  // Try multiple paths to handle different deployment scenarios
-  const paths = [
-    'data/products.json',
-    '../data/products.json'
-  ];
-
-  let res = null;
-  for (const path of paths) {
-    try {
-      res = await fetch(path);
-      if (res.ok) break;
-    } catch (e) {
-      console.warn(`Failed to fetch from ${path}:`, e);
-    }
-  }
-
-  if (!res || !res.ok) {
-    throw new Error('Failed to load products from any path');
+  // Get the directory of the current page
+  const currentUrl = window.location.href;
+  const baseUrl = new URL('.', currentUrl).href; // Get base directory URL
+  
+  // Construct path to products.json
+  let productUrl;
+  if (currentUrl.includes('/pages/')) {
+    // If we're in the pages directory, go up one level
+    productUrl = new URL('../data/products.json', baseUrl).href;
+  } else {
+    // If we're at root, access data directly
+    productUrl = new URL('data/products.json', baseUrl).href;
   }
   
-  allProducts = await res.json();
-  filteredProducts = [...allProducts];
-  return allProducts;
+  console.log('Loading products from:', productUrl);
+  console.log('Current URL:', currentUrl);
+
+  try {
+    const res = await fetch(productUrl);
+    
+    if (!res.ok) {
+      console.error(`Fetch failed with status ${res.status}:`, res.statusText);
+      throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+    }
+    
+    const data = await res.json();
+    console.log('Loaded', data.length, 'products');
+    
+    allProducts = data;
+    filteredProducts = [...allProducts];
+    return allProducts;
+  } catch (error) {
+    console.error('Failed to load products:', error);
+    throw new Error('Failed to load products: ' + error.message);
+  }
 }
 
 // ---- Render a single product card ----

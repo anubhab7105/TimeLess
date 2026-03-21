@@ -207,12 +207,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderSkeletons(grid, 12);
 
   try {
+    console.log('Starting to load products...');
     allProds = await loadProducts();
+    console.log('Products loaded successfully:', allProds);
     updateBrandCounts(allProds);
     parseURLParams();
     applyAndRender();
-  } catch {
-    grid.innerHTML = '<p style="color:var(--text2);grid-column:1/-1">Failed to load products. Please refresh.</p>';
+    console.log('Products rendered');
+  } catch (err) {
+    console.error('Error loading products:', err);
+    grid.innerHTML = '<p style="color:var(--text2);grid-column:1/-1">Failed to load products: ' + err.message + '</p>';
   }
 
   // Search

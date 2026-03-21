@@ -44,8 +44,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (featuredGrid) {
     renderSkeletons(featuredGrid, 4);
     try {
+      console.log('Loading products for featured grid...');
       const products = await loadProducts();
+      console.log('Featured grid - loaded', products.length, 'products');
       const featured = products.filter(p => p.badge).slice(0, 8);
+      console.log('Featured grid - showing', featured.length, 'featured products');
       featuredGrid.innerHTML = featured.map(p => renderProductCard(p)).join('');
       requestAnimationFrame(() => {
         featuredGrid.querySelectorAll('.reveal').forEach((el, i) => {
@@ -53,7 +56,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
       });
     } catch (err) {
-      featuredGrid.innerHTML = '<p style="color:var(--text2)">Failed to load products</p>';
+      console.error('Failed to load featured products:', err);
+      featuredGrid.innerHTML = '<p style="color:var(--text2)">Failed to load products: ' + err.message + '</p>';
     }
   }
 
@@ -64,13 +68,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const products = await loadProducts();
       const newArr = products.filter(p => p.badge === 'NEW').slice(0, 4);
+      console.log('New arrivals grid - showing', newArr.length, 'new products');
       newGrid.innerHTML = newArr.map(p => renderProductCard(p)).join('');
       requestAnimationFrame(() => {
         newGrid.querySelectorAll('.reveal').forEach((el, i) => {
           setTimeout(() => el.classList.add('visible'), i * 80);
         });
       });
-    } catch {}
+    } catch (err) {
+      console.error('Failed to load new arrivals:', err);
+    }
   }
 
   // Reveal observer
