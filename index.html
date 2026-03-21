@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TimeLess — Street Watch Co.</title>
+  <meta name="description" content="TimeLess — Bold street watches for the fearless generation. 100+ premium timepieces." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌚</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="TimeLess Home">
+      TIMELESS
+      <span>STREET WATCH CO.</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="pages/shop.html">Shop</a></li>
+      <li><a href="pages/about.html">About</a></li>
+      <li><a href="pages/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+
+      <a href="pages/cart.html" class="btn-icon" aria-label="Cart">
+        🛒
+        <span class="cart-badge" id="cartBadge" aria-live="polite">0</span>
+      </a>
+
+      <a href="pages/shop.html" class="btn-icon" aria-label="Wishlist" style="position:relative">
+        🤍
+        <span class="wishlist-count" id="wishlistCount"></span>
+      </a>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu" role="navigation">
+  <a href="index.html">Home</a>
+  <a href="pages/shop.html">Shop</a>
+  <a href="pages/about.html">About</a>
+  <a href="pages/contact.html">Contact</a>
+  <a href="pages/cart.html">Cart 🛒</a>
+</div>
+
+<!-- ========== HERO ========== -->
+<section class="hero" aria-label="Hero banner">
+  <div class="hero-bg"></div>
+  <div class="hero-noise"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">New Season Drop 2025</div>
+    <h1 class="hero-title">
+      <span class="line-1">WEAR</span>
+      <span class="line-2">TIME</span>
+    </h1>
+    <p class="hero-sub">
+      Bold timepieces for the fearless generation. Street culture meets precision engineering. 100+ watches ready to drop.
+    </p>
+    <div class="hero-ctas">
+      <a href="pages/shop.html" class="btn btn-primary btn-lg">Shop Now →</a>
+      <a href="pages/about.html" class="btn btn-secondary btn-lg">Our Story</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">105+</div>
+        <div class="stat-label">Timepieces</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Brands</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">50K+</div>
+        <div class="stat-label">Happy Wrists</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-watch-container">
+      <div class="hero-ring"></div>
+      <div class="hero-ring-2"></div>
+      <img
+        class="hero-watch-img"
+        src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=80"
+        alt="Featured watch"
+      />
+      <div class="hero-dot"></div>
+      <div class="hero-dot" style="top:auto;bottom:0;animation-delay:1s"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MARQUEE ========== -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">FREE SHIPPING OVER $300</span>
+    <span class="marquee-item">100+ TIMEPIECES IN STOCK</span>
+    <span class="marquee-item">2-YEAR WARRANTY ON ALL WATCHES</span>
+    <span class="marquee-item">NEW DROP EVERY MONTH</span>
+    <span class="marquee-item">STREET CULTURE. PRECISION CRAFT.</span>
+    <span class="marquee-item">RETURNS WITHIN 30 DAYS</span>
+  </div>
+</div>
+
+<!-- ========== CATEGORIES ========== -->
+<section class="section" aria-labelledby="cat-heading">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Collections</div>
+      <h2 class="section-title" id="cat-heading">SHOP BY <span>TYPE</span></h2>
+      <p class="section-desc">Whether you're into raw street digital, bold analog or precision mechanical — we've got your wrist covered.</p>
+    </div>
+    <div class="categories-grid">
+      <div class="category-card reveal" data-type="analog">
+        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&q=80" alt="Analog watches" loading="lazy" />
+        <div class="category-overlay">
+          <div class="category-label">ANALOG</div>
+          <div class="category-count">42 STYLES</div>
+        </div>
+      </div>
+      <div class="category-card reveal reveal-delay-1" data-type="digital">
+        <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=600&q=80" alt="Digital watches" loading="lazy" />
+        <div class="category-overlay">
+          <div class="category-label">DIGITAL</div>
+          <div class="category-count">38 STYLES</div>
+        </div>
+      </div>
+      <div class="category-card reveal reveal-delay-2" data-type="mechanical">
+        <img src="https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=600&q=80" alt="Mechanical watches" loading="lazy" />
+        <div class="category-overlay">
+          <div class="category-label">MECHANICAL</div>
+          <div class="category-count">25 STYLES</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEATURED PRODUCTS ========== -->
+<section class="section" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)" aria-labelledby="featured-heading">
+  <div class="container">
+    <div class="section-header reveal" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px">
+      <div>
+        <div class="section-tag">🔥 On Fire</div>
+        <h2 class="section-title" id="featured-heading">FEATURED <span>DROPS</span></h2>
+      </div>
+      <a href="pages/shop.html" class="btn btn-secondary">View All →</a>
+    </div>
+    <div class="products-grid" id="featuredGrid">
+      <!-- Loaded by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ========== BRANDS ========== -->
+<section class="brands-bar" aria-label="Our brands">
+  <div class="container">
+    <div class="brands-inner">
+      <div class="brand-pill" data-brand="CyberWatch">CYBERWATCH</div>
+      <div class="brand-pill" data-brand="UrbanPulse">URBANPULSE</div>
+      <div class="brand-pill" data-brand="GearSoul">GEARSOUL</div>
+      <div class="brand-pill" data-brand="FluxWear">FLUXWEAR</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== NEW ARRIVALS ========== -->
+<section class="section" aria-labelledby="new-heading">
+  <div class="container">
+    <div class="section-header centered reveal">
+      <div class="section-tag centered">✨ Just Landed</div>
+      <h2 class="section-title" id="new-heading">NEW <span>ARRIVALS</span></h2>
+      <p class="section-desc centered">The freshest drops from our latest collection — be the first to cop.</p>
+    </div>
+    <div class="products-grid" id="newArrivalsGrid">
+      <!-- Loaded by JS -->
+    </div>
+    <div style="text-align:center;margin-top:40px" class="reveal">
+      <a href="pages/shop.html" class="btn btn-primary btn-lg">Explore All 105+ Watches →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TESTIMONIALS ========== -->
+<section class="section" style="background:var(--bg2);border-top:1px solid var(--border)" aria-labelledby="reviews-heading">
+  <div class="container">
+    <div class="section-header centered reveal">
+      <div class="section-tag centered">⭐ Real Talk</div>
+      <h2 class="section-title" id="reviews-heading">WHAT THE <span>STREETS</span> SAY</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <p class="testimonial-text">"The Neon Phantom X1 is absolutely fire. Gets compliments every single day. Best watch I've ever owned and the price is unbeatable."</p>
+        <div class="testimonial-author">
+          <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" alt="Marcus J" />
+          <div>
+            <div class="testimonial-name">Marcus J.</div>
+            <div class="testimonial-role">Streetwear Blogger, NYC</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-1">
+        <p class="testimonial-text">"I bought the Obsidian Mechanic and I literally can't stop staring at my wrist. The craftsmanship is incredible for the price point."</p>
+        <div class="testimonial-author">
+          <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Priya K" />
+          <div>
+            <div class="testimonial-name">Priya K.</div>
+            <div class="testimonial-role">Creative Director, Mumbai</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <p class="testimonial-text">"TimeLess ships fast, packaging is premium, and the watch is even better in person. This is my fourth purchase and definitely not the last."</p>
+        <div class="testimonial-author">
+          <img class="testimonial-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80" alt="Jake T" />
+          <div>
+            <div class="testimonial-name">Jake T.</div>
+            <div class="testimonial-role">DJ & Producer, London</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== NEWSLETTER ========== -->
+<section class="newsletter" aria-labelledby="newsletter-heading">
+  <div class="container">
+    <div class="newsletter-inner reveal">
+      <h2 class="newsletter-title" id="newsletter-heading">STAY IN THE LOOP</h2>
+      <p class="newsletter-sub">Get early access to drops, exclusive discounts, and street culture content. No spam, ever.</p>
+      <form class="newsletter-form" id="newsletterForm">
+        <input type="email" class="newsletter-input" placeholder="your@email.com" required aria-label="Email address" />
+        <button type="submit" class="btn btn-ghost" style="background:white;color:#000;white-space:nowrap">Subscribe ✓</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">TIMELESS</div>
+        <p class="footer-about">Born on the streets, built for the bold. TimeLess is where precision engineering meets youth culture. We believe your watch should say something — so say it loud.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+          <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-btn" aria-label="TikTok">🎵</a>
+          <a href="#" class="social-btn" aria-label="YouTube">▶️</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">SHOP</div>
+        <div class="footer-links">
+          <a href="pages/shop.html">All Watches</a>
+          <a href="pages/shop.html?type=analog">Analog</a>
+          <a href="pages/shop.html?type=digital">Digital</a>
+          <a href="pages/shop.html?type=mechanical">Mechanical</a>
+          <a href="pages/shop.html?sort=newest">New Arrivals</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">INFO</div>
+        <div class="footer-links">
+          <a href="pages/about.html">About Us</a>
+          <a href="pages/contact.html">Contact</a>
+          <a href="#">Size Guide</a>
+          <a href="#">Shipping Policy</a>
+          <a href="#">Returns</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">ACCOUNT</div>
+        <div class="footer-links">
+          <a href="pages/cart.html">Cart</a>
+          <a href="pages/checkout.html">Checkout</a>
+          <a href="#">Track Order</a>
+          <a href="#">Warranty</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 TimeLess Street Watch Co. All rights reserved.</span>
+      <span style="font-family:var(--font-mono);font-size:0.7rem">MADE WITH ❤️ FOR THE STREETS</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll to Top -->
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+
+<!-- Product Modal -->
+<div class="modal-overlay" id="productModal" role="dialog" aria-modal="true"></div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

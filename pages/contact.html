@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — TimeLess Street Watch Co.</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌚</text></svg>" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    /* ---- Contact-specific styles ---- */
+
+    /* ---- Layout ---- */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 40px;
+      padding: 60px 0 100px;
+    }
+
+    /* ---- Sidebar info cards ---- */
+    .contact-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .info-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .info-card:hover::before { transform: scaleX(1); }
+
+    .info-icon {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .info-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .info-value {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .info-sub {
+      font-size: 0.8rem;
+      color: var(--text3);
+    }
+
+    /* ---- Social panel ---- */
+    .social-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 24px;
+    }
+    .social-panel-title {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text3);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .social-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .social-link-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      background: var(--surface2);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.9rem;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      border: 1px solid var(--border);
+    }
+    .social-link-item:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+    .social-link-item .s-icon { font-size: 1.2rem; }
+    .social-link-item .s-handle { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text3); margin-left: auto; }
+    .social-link-item:hover .s-handle { color: rgba(255,255,255,0.7); }
+
+    /* ---- Map placeholder ---- */
+    .map-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      height: 180px;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    .map-card:hover { border-color: var(--accent); }
+    .map-bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(60%) contrast(1.1);
+      transition: filter 0.3s;
+    }
+    .map-card:hover .map-bg { filter: grayscale(20%) contrast(1.1); }
+    .map-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .map-pin { font-size: 2rem; }
+    .map-label {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: #fff;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    /* ---- Contact Form ---- */
+    .contact-form-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+    }
+    .form-header {
+      margin-bottom: 36px;
+    }
+    .form-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .form-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      letter-spacing: 1.5px;
+      line-height: 1.05;
+    }
+    .form-subtitle {
+      color: var(--text2);
+      font-size: 0.9rem;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+    .form-label span { color: var(--accent); }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255,45,85,0.12);
+      background: var(--surface);
+    }
+    .form-input.error,
+    .form-select.error,
+    .form-textarea.error {
+      border-color: #ff4444;
+      box-shadow: 0 0 0 3px rgba(255,68,68,0.12);
+    }
+    .form-input.success,
+    .form-textarea.success {
+      border-color: #00c37b;
+      box-shadow: 0 0 0 3px rgba(0,195,123,0.10);
+    }
+    .form-select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 130px;
+      line-height: 1.6;
+    }
+    .field-error {
+      font-size: 0.75rem;
+      color: #ff4444;
+      font-family: var(--font-mono);
+      letter-spacing: 0.5px;
+      min-height: 16px;
+      display: none;
+    }
+    .field-error.visible { display: block; }
+
+    /* ---- Subject chips ---- */
+    .subject-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .subject-chip {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--surface2);
+      color: var(--text2);
+      user-select: none;
+    }
+    .subject-chip:hover { border-color: var(--accent); color: var(--accent); }
+    .subject-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* ---- Submit area ---- */
+    .form-footer {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .form-privacy {
+      font-size: 0.75rem;
+      color: var(--text3);
+      line-height: 1.5;
+      flex: 1;
+      min-width: 200px;
+    }
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .btn-submit:hover {
+      background: #e0003d;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255,45,85,0.4);
+    }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .btn-submit .send-icon { transition: transform 0.2s; }
+    .btn-submit:hover .send-icon { transform: translateX(4px); }
+
+    /* ---- Success state ---- */
+    .success-overlay {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      animation: success-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    .success-overlay.visible { display: block; }
+    .success-checkmark {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      display: block;
+      animation: float 3s ease-in-out infinite;
+    }
+    .success-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .success-msg {
+      color: var(--text2);
+      line-height: 1.7;
+      max-width: 380px;
+      margin: 0 auto 32px;
+    }
+    .success-ref {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+      background: rgba(255,45,85,0.08);
+      padding: 8px 20px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 32px;
+      letter-spacing: 1.5px;
+    }
+
+    /* ---- FAQ section ---- */
+    .faq-section {
+      padding: 80px 0;
+    }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 48px;
+    }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .faq-question {
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      user-select: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .faq-question:hover { background: var(--surface2); color: var(--accent); }
+    .faq-arrow {
+      font-size: 0.8rem;
+      transition: transform 0.3s;
+      color: var(--text3);
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-item.open .faq-question { color: var(--accent); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.25s;
+      padding: 0 24px;
+      font-size: 0.875rem;
+      color: var(--text2);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+      padding-bottom: 20px;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 1000px) {
+      .contact-layout { grid-template-columns: 1fr; }
+      .contact-sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    }
+    @media (max-width: 768px) {
+      .contact-sidebar { grid-template-columns: 1fr; }
+      .contact-form-wrap { padding: 32px 24px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-footer { flex-direction: column; align-items: stretch; }
+      .faq-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">TIMELESS<span>STREET WATCH CO.</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+      <a href="cart.html" class="btn-icon">🛒<span class="cart-badge" id="cartBadge">0</span></a>
+      <a href="shop.html" class="btn-icon" style="position:relative">🤍<span class="wishlist-count" id="wishlistCount"></span></a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">Cart 🛒</a>
+</div>
+
+<!-- ========== PAGE HEADER ========== -->
+<header class="page-header">
+  <div class="container">
+    <div class="page-breadcrumb"><a href="../index.html">Home</a> / Contact</div>
+    <h1 class="page-title">GET IN <span class="text-accent">TOUCH</span></h1>
+    <p style="color:var(--text2);margin-top:12px">We reply within 24 hours. No bots — real humans who love watches.</p>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- ========== MAIN CONTACT LAYOUT ========== -->
+    <div class="contact-layout">
+
+      <!-- ---- SIDEBAR ---- -->
+      <aside class="contact-sidebar">
+
+        <!-- Email -->
+        <div class="info-card reveal">
+          <span class="info-icon">✉️</span>
+          <div class="info-label">Email Us</div>
+          <div class="info-value">hello@timeless.watch</div>
+          <div class="info-sub">For general enquiries &amp; collabs</div>
+          <div class="info-value" style="margin-top:10px">support@timeless.watch</div>
+          <div class="info-sub">For orders &amp; returns</div>
+        </div>
+
+        <!-- Phone -->
+        <div class="info-card reveal">
+          <span class="info-icon">📞</span>
+          <div class="info-label">Call / WhatsApp</div>
+          <div class="info-value">+91 98765 43210</div>
+          <div class="info-sub">Mon–Sat, 10am–7pm IST</div>
+        </div>
+
+        <!-- Address -->
+        <div class="info-card reveal">
+          <span class="info-icon">📍</span>
+          <div class="info-label">Our Studio</div>
+          <div class="info-value">TimeLess HQ</div>
+          <div class="info-sub">23, Mehrauli–Badarpur Rd, Saket<br>New Delhi — 110 017</div>
+        </div>
+
+        <!-- Map -->
+        <div class="map-card reveal" onclick="window.open('https://maps.google.com', '_blank')">
+          <img class="map-bg" src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=600&q=60" alt="Map" />
+          <div class="map-overlay">
+            <div class="map-pin">📍</div>
+            <div class="map-label">VIEW ON MAP</div>
+          </div>
+        </div>
+
+        <!-- Social -->
+        <div class="social-panel reveal">
+          <div class="social-panel-title">// FOLLOW THE MOVEMENT</div>
+          <div class="social-row">
+            <a href="#" class="social-link-item">
+              <span class="s-icon">📸</span>
+              <span>Instagram</span>
+              <span class="s-handle">@timeless.watch</span>
+            </a>
+            <a href="#" class="social-link-item">
+              <span class="s-icon">🎵</span>
+              <span>TikTok</span>
+              <span class="s-handle">@timelesshq</span>
+            </a>
+            <a href="#" class="social-link-item">
+              <span class="s-icon">🐦</span>
+              <span>Twitter / X</span>
+              <span class="s-handle">@TimeLessWatch</span>
+            </a>
+            <a href="#" class="social-link-item">
+              <span class="s-icon">▶️</span>
+              <span>YouTube</span>
+              <span class="s-handle">TimeLess Street Watch</span>
+            </a>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- ---- CONTACT FORM ---- -->
+      <div class="contact-form-wrap reveal">
+
+        <!-- Form state -->
+        <div id="formContent">
+          <div class="form-header">
+            <div class="form-tag">// SEND A MESSAGE</div>
+            <h2 class="form-title">WE'D LOVE TO<br><span class="text-accent">HEAR FROM YOU</span></h2>
+            <p class="form-subtitle">Whether it's a product question, a collab idea, or just want to say what's up — drop us a message. We actually read every single one.</p>
+          </div>
+
+          <!-- Subject chips -->
+          <div class="form-field" style="margin-bottom:28px">
+            <div class="form-label">What's this about?</div>
+            <div class="subject-chips" id="subjectChips">
+              <div class="subject-chip active" data-val="Order / Shipping">📦 Order / Shipping</div>
+              <div class="subject-chip" data-val="Product Question">⌚ Product Question</div>
+              <div class="subject-chip" data-val="Return / Refund">↩️ Return / Refund</div>
+              <div class="subject-chip" data-val="Collaboration">🤝 Collaboration</div>
+              <div class="subject-chip" data-val="Just saying hi!">👋 Just saying hi!</div>
+              <div class="subject-chip" data-val="Other">💬 Other</div>
+            </div>
+          </div>
+
+          <div class="form-grid" id="contactForm">
+
+            <!-- First name -->
+            <div class="form-field">
+              <label class="form-label" for="firstName">First Name <span>*</span></label>
+              <input type="text" class="form-input" id="firstName" placeholder="e.g. Arjun" autocomplete="given-name" />
+              <div class="field-error" id="err-firstName">Please enter your first name.</div>
+            </div>
+
+            <!-- Last name -->
+            <div class="form-field">
+              <label class="form-label" for="lastName">Last Name <span>*</span></label>
+              <input type="text" class="form-input" id="lastName" placeholder="e.g. Mehta" autocomplete="family-name" />
+              <div class="field-error" id="err-lastName">Please enter your last name.</div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-field">
+              <label class="form-label" for="email">Email Address <span>*</span></label>
+              <input type="email" class="form-input" id="email" placeholder="you@example.com" autocomplete="email" />
+              <div class="field-error" id="err-email">Please enter a valid email.</div>
+            </div>
+
+            <!-- Phone -->
+            <div class="form-field">
+              <label class="form-label" for="phone">Phone / WhatsApp</label>
+              <input type="tel" class="form-input" id="phone" placeholder="+91 98765 43210" autocomplete="tel" />
+              <div class="field-error" id="err-phone">Please enter a valid phone number.</div>
+            </div>
+
+            <!-- Order ref (optional) -->
+            <div class="form-field full">
+              <label class="form-label" for="orderRef">Order Reference <small style="font-family:inherit;text-transform:none;letter-spacing:0;color:var(--text3)">(optional)</small></label>
+              <input type="text" class="form-input" id="orderRef" placeholder="e.g. TL-AB12C3D4" style="text-transform:uppercase" />
+            </div>
+
+            <!-- Message -->
+            <div class="form-field full">
+              <label class="form-label" for="message">Message <span>*</span></label>
+              <textarea class="form-textarea" id="message" placeholder="Tell us what's on your mind..."></textarea>
+              <div class="field-error" id="err-message">Please write a message (min 10 characters).</div>
+            </div>
+
+            <!-- Submit row -->
+            <div class="form-footer full">
+              <div class="form-privacy">
+                🔒 Your data is safe. We never spam, never sell, never share. Just plain helpful humans.
+              </div>
+              <button class="btn-submit" id="submitBtn" type="button">
+                SEND MESSAGE
+                <span class="send-icon">→</span>
+              </button>
+            </div>
+
+          </div><!-- end form-grid -->
+        </div><!-- end formContent -->
+
+        <!-- Success state -->
+        <div class="success-overlay" id="successState">
+          <span class="success-checkmark">✅</span>
+          <div class="success-title">MESSAGE SENT!</div>
+          <p class="success-msg">
+            We got your message and we're on it. Expect a reply from a real TimeLess human within 24 hours.
+          </p>
+          <div class="success-ref" id="ticketRef">TICKET: TL-XXXXXXXX</div>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <a href="shop.html" class="btn btn-primary">BROWSE WATCHES</a>
+            <button class="btn btn-outline" id="sendAnotherBtn">SEND ANOTHER</button>
+          </div>
+        </div>
+
+      </div><!-- end form-wrap -->
+    </div><!-- end contact-layout -->
+
+    <!-- ========== FAQ ========== -->
+    <section class="faq-section reveal">
+      <div style="text-align:center;margin-bottom:0">
+        <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--accent3);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px">// QUICK ANSWERS</div>
+        <h2 style="font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.8rem);letter-spacing:1.5px">FREQUENTLY ASKED <span class="text-accent">QUESTIONS</span></h2>
+      </div>
+      <div class="faq-grid" id="faqGrid">
+        <!-- FAQs injected by JS -->
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">TIMELESS</div>
+        <p class="footer-about">Born on the streets, built for the bold. TimeLess is where precision engineering meets youth culture.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+          <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
+          <a href="#" class="social-btn" aria-label="TikTok">🎵</a>
+          <a href="#" class="social-btn" aria-label="YouTube">▶️</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">SHOP</div>
+        <div class="footer-links">
+          <a href="shop.html">All Watches</a>
+          <a href="shop.html?type=analog">Analog</a>
+          <a href="shop.html?type=digital">Digital</a>
+          <a href="shop.html?type=mechanical">Mechanical</a>
+          <a href="shop.html?sort=newest">New Arrivals</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">INFO</div>
+        <div class="footer-links">
+          <a href="about.html">About Us</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Size Guide</a>
+          <a href="#">Shipping Policy</a>
+          <a href="#">Returns</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-heading">ACCOUNT</div>
+        <div class="footer-links">
+          <a href="cart.html">Cart</a>
+          <a href="checkout.html">Checkout</a>
+          <a href="#">Track Order</a>
+          <a href="#">Warranty</a>
+          <a href="#">FAQ</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 TimeLess Street Watch Co. All rights reserved.</span>
+      <span style="font-family:var(--font-mono);font-size:0.7rem">MADE WITH ❤️ FOR THE STREETS</span>
+    </div>
+  </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+
+<script type="module">
+import { ThemeManager, initScrollTop, initNavbar, initMobileMenu, setActiveNav, initReveal, isValidEmail, isValidPhone, generateOrderRef, Toast } from '../js/utils.js';
+import { Cart, Wishlist } from '../js/cart.js';
+
+// ---- FAQ DATA ----
+const FAQS = [
+  { q: 'How long does shipping take?', a: 'Standard shipping takes 3–5 business days within India. Express shipping (1–2 days) is available at checkout. International orders take 7–14 days.' },
+  { q: 'Do you offer free shipping?', a: 'Yes! Orders above ₹2999 ($300) get free standard shipping anywhere in India. International orders have flat-rate shipping based on your location.' },
+  { q: 'What is your return policy?', a: 'We offer hassle-free returns within 30 days of delivery. The watch must be unworn, in original packaging. We cover the return shipping cost for defective items.' },
+  { q: 'Are the watches genuine / authentic?', a: 'Absolutely. Every watch we sell is 100% authentic and comes directly from the brand or an authorized distributor. We\'d stake our name on it — and we do.' },
+  { q: 'Do you offer gift wrapping?', a: 'Yes! Select "Gift Wrap" at checkout for ₹99. We include a handwritten card, premium tissue, and a signature TimeLess box. Perfect for any occasion.' },
+  { q: 'How do I track my order?', a: 'Once your order ships, you\'ll receive an email with a tracking link. You can also visit our Track Order page and enter your order reference (TL-XXXXXXXX format).' },
+  { q: 'What warranty comes with my watch?', a: 'All watches come with a minimum 1-year manufacturer warranty. Many carry 2-year coverage. Details are listed on each product page. We also offer extended warranty plans.' },
+  { q: 'Can I do a collaboration with TimeLess?', a: 'We love creative collabs! If you\'re an artist, brand, or creator — hit us up via the contact form above and select "Collaboration". We check these daily.' },
+];
+
+// ---- INIT ----
+document.addEventListener('DOMContentLoaded', () => {
+  ThemeManager.init();
+  initNavbar();
+  initMobileMenu();
+  initScrollTop();
+  setActiveNav();
+  Cart.updateUI();
+  Wishlist.updateUI();
+
+  const themeBtn = document.getElementById('themeToggle');
+  themeBtn.textContent = ThemeManager.get() === 'dark' ? '🌙' : '☀️';
+  themeBtn.addEventListener('click', () => {
+    ThemeManager.toggle();
+    themeBtn.textContent = ThemeManager.get() === 'dark' ? '🌙' : '☀️';
+  });
+
+  renderFAQs();
+  initSubjectChips();
+  initForm();
+  initReveal();
+});
+
+// ---- RENDER FAQs ----
+function renderFAQs() {
+  const grid = document.getElementById('faqGrid');
+  grid.innerHTML = FAQS.map((faq, i) => `
+    <div class="faq-item" data-idx="${i}">
+      <div class="faq-question">
+        <span>${faq.q}</span>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">${faq.a}</div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-question').addEventListener('click', () => {
+      const wasOpen = item.classList.contains('open');
+      // Close all
+      grid.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+}
+
+// ---- SUBJECT CHIPS ----
+let selectedSubject = 'Order / Shipping';
+function initSubjectChips() {
+  document.getElementById('subjectChips').querySelectorAll('.subject-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.subject-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedSubject = chip.dataset.val;
+    });
+  });
+}
+
+// ---- FORM VALIDATION & SUBMIT ----
+function initForm() {
+  // Real-time validation on blur
+  ['firstName', 'lastName', 'email', 'phone', 'message'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('blur', () => validateField(id));
+      el.addEventListener('input', () => {
+        if (el.classList.contains('error')) validateField(id);
+      });
+    }
+  });
+
+  document.getElementById('submitBtn').addEventListener('click', handleSubmit);
+  document.getElementById('sendAnotherBtn')?.addEventListener('click', resetForm);
+}
+
+function validateField(id) {
+  const el = document.getElementById(id);
+  const errEl = document.getElementById(`err-${id}`);
+  if (!el) return true;
+
+  let valid = true;
+  const val = el.value.trim();
+
+  switch (id) {
+    case 'firstName':
+    case 'lastName':
+      valid = val.length >= 2;
+      break;
+    case 'email':
+      valid = isValidEmail(val);
+      break;
+    case 'phone':
+      // Phone is optional, but if filled, must be valid
+      if (val) valid = isValidPhone(val);
+      else valid = true;
+      break;
+    case 'message':
+      valid = val.length >= 10;
+      break;
+  }
+
+  el.classList.toggle('error', !valid);
+  el.classList.toggle('success', valid && val.length > 0);
+  if (errEl) errEl.classList.toggle('visible', !valid);
+  return valid;
+}
+
+function handleSubmit() {
+  const fields = ['firstName', 'lastName', 'email', 'message'];
+  const results = fields.map(f => validateField(f));
+
+  // Also validate phone if filled
+  const phoneEl = document.getElementById('phone');
+  if (phoneEl.value.trim()) results.push(validateField('phone'));
+
+  if (results.some(r => !r)) {
+    Toast.show('Please fix the highlighted fields.', 'error');
+    // Scroll to first error
+    const firstErr = document.querySelector('.form-input.error, .form-textarea.error');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  // Build mailto
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName = document.getElementById('lastName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const orderRef = document.getElementById('orderRef').value.trim();
+  const message = document.getElementById('message').value.trim();
+  const ref = generateOrderRef();
+
+  const emailBody = [
+    `Subject: ${selectedSubject}`,
+    `From: ${firstName} ${lastName} <${email}>`,
+    phone ? `Phone: ${phone}` : '',
+    orderRef ? `Order Ref: ${orderRef}` : '',
+    `Ticket: ${ref}`,
+    '',
+    message,
+  ].filter(Boolean).join('\n');
+
+  const mailtoURL = `mailto:hello@timeless.watch?subject=TimeLess Contact: ${encodeURIComponent(selectedSubject)} [${ref}]&body=${encodeURIComponent(emailBody)}`;
+
+  // Show loading state
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px">⏳ SENDING…</span>';
+
+  setTimeout(() => {
+    // Open mail client
+    window.location.href = mailtoURL;
+
+    // Show success
+    document.getElementById('formContent').style.display = 'none';
+    const success = document.getElementById('successState');
+    document.getElementById('ticketRef').textContent = `TICKET: ${ref}`;
+    success.classList.add('visible');
+
+    btn.disabled = false;
+    btn.innerHTML = 'SEND MESSAGE <span class="send-icon">→</span>';
+  }, 1200);
+}
+
+function resetForm() {
+  document.getElementById('successState').classList.remove('visible');
+  document.getElementById('formContent').style.display = '';
+
+  ['firstName','lastName','email','phone','orderRef','message'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.value = '';
+      el.classList.remove('error','success');
+    }
+  });
+  document.querySelectorAll('.field-error').forEach(e => e.classList.remove('visible'));
+  document.querySelectorAll('.subject-chip').forEach((c,i) => c.classList.toggle('active', i === 0));
+  selectedSubject = 'Order / Shipping';
+}
+</script>
+</body>
+</html>

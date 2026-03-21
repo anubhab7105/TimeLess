@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — TimeLess Street Watch Co.</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌚</text></svg>" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">TIMELESS<span>STREET WATCH CO.</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="shop.html" class="active">Shop</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+      <a href="cart.html" class="btn-icon">🛒<span class="cart-badge" id="cartBadge">0</span></a>
+      <a href="shop.html" class="btn-icon" style="position:relative">🤍<span class="wishlist-count" id="wishlistCount"></span></a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">Cart 🛒</a>
+</div>
+
+<!-- ========== PAGE HEADER ========== -->
+<header class="page-header">
+  <div class="container">
+    <div class="page-breadcrumb"><a href="../index.html">Home</a> / Shop</div>
+    <h1 class="page-title">ALL <span class="text-accent">WATCHES</span></h1>
+    <p style="color:var(--text2);margin-top:12px">105+ timepieces. Zero compromises.</p>
+  </div>
+</header>
+
+<!-- ========== SHOP LAYOUT ========== -->
+<main>
+  <div class="container" style="padding-top:0;padding-bottom:80px">
+    <!-- Mobile Filter Toggle -->
+    <button class="btn btn-secondary" id="mobileFilterBtn" style="margin:20px 0;display:none">
+      ⚙️ Filters & Sort
+    </button>
+
+    <div class="shop-layout">
+      <!-- ---- FILTER SIDEBAR ---- -->
+      <aside class="filter-sidebar" id="filterSidebar">
+        <div class="filter-title">
+          FILTER
+          <button class="filter-clear" id="clearFilters">RESET ALL</button>
+        </div>
+
+        <!-- Search -->
+        <div class="search-bar-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="search" class="search-input" id="searchInput" placeholder="Search watches..." aria-label="Search watches" />
+        </div>
+
+        <!-- Price Range -->
+        <div class="filter-group">
+          <div class="filter-group-title">Price Range</div>
+          <div class="price-inputs">
+            <div class="price-input-wrap">
+              <span>$</span>
+              <input type="number" id="minPrice" value="0" min="0" max="2000" placeholder="0" />
+            </div>
+            <div class="price-input-wrap">
+              <span>$</span>
+              <input type="number" id="maxPrice" value="2000" min="0" max="2000" placeholder="2000" />
+            </div>
+          </div>
+          <input type="range" class="range-slider" id="priceRange" min="0" max="2000" value="2000" step="50" />
+        </div>
+
+        <!-- Brand -->
+        <div class="filter-group">
+          <div class="filter-group-title">Brand</div>
+          <div class="filter-options" id="brandFilters">
+            <label class="filter-option">
+              <input type="checkbox" value="CyberWatch" class="brand-check" /> <span>CyberWatch</span>
+              <span class="count" id="count-CyberWatch"></span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" value="UrbanPulse" class="brand-check" /> <span>UrbanPulse</span>
+              <span class="count" id="count-UrbanPulse"></span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" value="GearSoul" class="brand-check" /> <span>GearSoul</span>
+              <span class="count" id="count-GearSoul"></span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" value="FluxWear" class="brand-check" /> <span>FluxWear</span>
+              <span class="count" id="count-FluxWear"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Type -->
+        <div class="filter-group">
+          <div class="filter-group-title">Watch Type</div>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input type="checkbox" value="analog" class="type-check" /> <span>Analog</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" value="digital" class="type-check" /> <span>Digital</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" value="mechanical" class="type-check" /> <span>Mechanical</span>
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ---- PRODUCTS AREA ---- -->
+      <div>
+        <!-- Toolbar -->
+        <div class="shop-toolbar">
+          <div class="results-count" id="resultsCount"><strong>0</strong> watches found</div>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+            <select class="sort-select" id="sortSelect" aria-label="Sort products">
+              <option value="default">Default</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+              <option value="newest">Newest First</option>
+            </select>
+            <div class="view-toggles">
+              <button class="view-toggle active" id="gridView" title="Grid view" aria-label="Grid view">⊞</button>
+              <button class="view-toggle" id="listView" title="List view" aria-label="List view">☰</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active filter tags -->
+        <div id="activeTags" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px"></div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid"></div>
+
+        <!-- Load more -->
+        <div style="text-align:center;margin-top:40px" id="loadMoreWrap">
+          <button class="btn btn-secondary btn-lg" id="loadMoreBtn">Load More Watches</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Product Modal -->
+<div class="modal-overlay" id="productModal"></div>
+
+<!-- Scroll to Top -->
+<button class="scroll-top" id="scrollTop">↑</button>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;padding:24px 0">
+      <span>© 2025 TimeLess Street Watch Co.</span>
+      <a href="../index.html" class="btn btn-ghost btn-sm">← Back to Home</a>
+    </div>
+  </div>
+</footer>
+
+<script type="module">
+import { ThemeManager, initReveal, initScrollTop, initNavbar, initMobileMenu, debounce, Toast } from '../js/utils.js';
+import { Cart, Wishlist } from '../js/cart.js';
+import { loadProducts, renderProducts, renderSkeletons, FilterEngine } from '../js/products.js';
+
+const engine = new FilterEngine();
+let allProds = [];
+let currentPage = 1;
+const PAGE_SIZE = 20;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  ThemeManager.init();
+  initNavbar();
+  initMobileMenu();
+  initScrollTop();
+  Cart.updateUI();
+  Wishlist.updateUI();
+
+  // Theme
+  const themeBtn = document.getElementById('themeToggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const next = ThemeManager.toggle();
+      themeBtn.innerHTML = next === 'dark' ? '🌙' : '☀️';
+    });
+    themeBtn.innerHTML = ThemeManager.get() === 'dark' ? '🌙' : '☀️';
+  }
+
+  // Load products
+  const grid = document.getElementById('productsGrid');
+  renderSkeletons(grid, 12);
+
+  try {
+    allProds = await loadProducts();
+    updateBrandCounts(allProds);
+    parseURLParams();
+    applyAndRender();
+  } catch {
+    grid.innerHTML = '<p style="color:var(--text2);grid-column:1/-1">Failed to load products. Please refresh.</p>';
+  }
+
+  // Search
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', debounce(e => {
+    engine.setSearch(e.target.value);
+    currentPage = 1;
+    applyAndRender();
+  }, 250));
+
+  // Price range slider
+  const rangeSlider = document.getElementById('priceRange');
+  const maxInput = document.getElementById('maxPrice');
+  rangeSlider.addEventListener('input', e => {
+    maxInput.value = e.target.value;
+    engine.setPrice(parseInt(document.getElementById('minPrice').value) || 0, parseInt(e.target.value));
+    currentPage = 1;
+    applyAndRender();
+  });
+
+  // Price inputs
+  ['minPrice','maxPrice'].forEach(id => {
+    document.getElementById(id).addEventListener('change', () => {
+      const min = parseInt(document.getElementById('minPrice').value) || 0;
+      const max = parseInt(document.getElementById('maxPrice').value) || 2000;
+      rangeSlider.value = max;
+      engine.setPrice(min, max);
+      currentPage = 1;
+      applyAndRender();
+    });
+  });
+
+  // Brand checkboxes
+  document.querySelectorAll('.brand-check').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const brands = [...document.querySelectorAll('.brand-check:checked')].map(c => c.value);
+      engine.setBrands(brands);
+      currentPage = 1;
+      applyAndRender();
+    });
+  });
+
+  // Type checkboxes
+  document.querySelectorAll('.type-check').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const types = [...document.querySelectorAll('.type-check:checked')].map(c => c.value);
+      engine.setTypes(types);
+      currentPage = 1;
+      applyAndRender();
+    });
+  });
+
+  // Sort
+  document.getElementById('sortSelect').addEventListener('change', e => {
+    engine.setSort(e.target.value);
+    currentPage = 1;
+    applyAndRender();
+  });
+
+  // Clear filters
+  document.getElementById('clearFilters').addEventListener('click', () => {
+    Object.assign(engine.filters, { search: '', brands: [], types: [], minPrice: 0, maxPrice: 2000, sort: 'default' });
+    document.getElementById('searchInput').value = '';
+    document.getElementById('minPrice').value = '0';
+    document.getElementById('maxPrice').value = '2000';
+    document.getElementById('priceRange').value = '2000';
+    document.querySelectorAll('.brand-check, .type-check').forEach(cb => cb.checked = false);
+    document.getElementById('sortSelect').value = 'default';
+    currentPage = 1;
+    applyAndRender();
+    Toast.show('Filters cleared', 'info');
+  });
+
+  // Load more
+  document.getElementById('loadMoreBtn').addEventListener('click', () => {
+    currentPage++;
+    applyAndRender(true);
+  });
+
+  // View toggle
+  document.getElementById('gridView').addEventListener('click', () => {
+    document.getElementById('productsGrid').style.gridTemplateColumns = '';
+    document.getElementById('gridView').classList.add('active');
+    document.getElementById('listView').classList.remove('active');
+  });
+
+  document.getElementById('listView').addEventListener('click', () => {
+    document.getElementById('productsGrid').style.gridTemplateColumns = '1fr';
+    document.getElementById('listView').classList.add('active');
+    document.getElementById('gridView').classList.remove('active');
+  });
+
+  // Mobile filter toggle
+  const mobileBtn = document.getElementById('mobileFilterBtn');
+  const sidebar = document.getElementById('filterSidebar');
+  if (window.innerWidth <= 768) {
+    mobileBtn.style.display = 'block';
+    sidebar.style.display = 'none';
+  }
+  mobileBtn.addEventListener('click', () => {
+    const visible = sidebar.style.display !== 'none';
+    sidebar.style.display = visible ? 'none' : 'block';
+    mobileBtn.textContent = visible ? '⚙️ Filters & Sort' : '✕ Hide Filters';
+  });
+});
+
+function applyAndRender(append = false) {
+  const filtered = engine.apply(allProds);
+  const total = filtered.length;
+  const paged = filtered.slice(0, currentPage * PAGE_SIZE);
+
+  document.getElementById('resultsCount').innerHTML = `<strong>${total}</strong> watches found`;
+
+  const loadMoreWrap = document.getElementById('loadMoreWrap');
+  loadMoreWrap.style.display = paged.length < total ? 'block' : 'none';
+  document.getElementById('loadMoreBtn').textContent = `Load More Watches (${total - paged.length} remaining)`;
+
+  renderProducts(paged, document.getElementById('productsGrid'));
+  updateActiveTags();
+}
+
+function updateBrandCounts(products) {
+  const counts = {};
+  products.forEach(p => { counts[p.brand] = (counts[p.brand] || 0) + 1; });
+  Object.entries(counts).forEach(([brand, count]) => {
+    const el = document.getElementById(`count-${brand}`);
+    if (el) el.textContent = count;
+  });
+}
+
+function updateActiveTags() {
+  const container = document.getElementById('activeTags');
+  const tags = [];
+
+  if (engine.filters.search) tags.push({ label: `Search: "${engine.filters.search}"`, clear: () => { engine.setSearch(''); document.getElementById('searchInput').value = ''; } });
+  engine.filters.brands.forEach(b => tags.push({ label: `Brand: ${b}`, clear: () => {
+    engine.filters.brands = engine.filters.brands.filter(x => x !== b);
+    document.querySelector(`.brand-check[value="${b}"]`).checked = false;
+  }}));
+  engine.filters.types.forEach(t => tags.push({ label: `Type: ${t}`, clear: () => {
+    engine.filters.types = engine.filters.types.filter(x => x !== t);
+    document.querySelector(`.type-check[value="${t}"]`).checked = false;
+  }}));
+  if (engine.filters.maxPrice < 2000) tags.push({ label: `Max: $${engine.filters.maxPrice}`, clear: () => { engine.setPrice(0,2000); document.getElementById('maxPrice').value=2000; document.getElementById('priceRange').value=2000; } });
+
+  container.innerHTML = tags.map((t,i) => `
+    <span style="background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px 4px 14px;font-size:0.75rem;display:inline-flex;align-items:center;gap:8px;cursor:pointer" data-tag-idx="${i}">
+      ${t.label}
+      <span style="color:var(--text3);font-size:0.8rem">✕</span>
+    </span>
+  `).join('');
+
+  container.querySelectorAll('[data-tag-idx]').forEach(el => {
+    el.addEventListener('click', () => {
+      tags[parseInt(el.dataset.tagIdx)].clear();
+      currentPage = 1;
+      applyAndRender();
+    });
+  });
+}
+
+function parseURLParams() {
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get('type');
+  const brand = params.get('brand');
+  const sort = params.get('sort');
+
+  if (type) {
+    engine.setTypes([type]);
+    const cb = document.querySelector(`.type-check[value="${type}"]`);
+    if (cb) cb.checked = true;
+  }
+  if (brand) {
+    engine.setBrands([brand]);
+    const cb = document.querySelector(`.brand-check[value="${brand}"]`);
+    if (cb) cb.checked = true;
+  }
+  if (sort) {
+    engine.setSort(sort);
+    document.getElementById('sortSelect').value = sort;
+  }
+}
+</script>
+</body>
+</html>
