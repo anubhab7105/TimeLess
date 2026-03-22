@@ -1,12 +1,11 @@
 import os
 import json
-from flask import Flask, render_template, jsonify, send_from_directory
+from flask import Flask, jsonify, send_from_directory
+from flask_cors import CORS
 
 # Initialize Flask app
-app = Flask(__name__, 
-            static_folder='.',
-            static_url_path='',
-            template_folder='.')
+app = Flask(__name__)
+CORS(app)  # Enable CORS for API requests
 
 # Get port from environment variable or default to 5000
 PORT = int(os.environ.get('PORT', 5000))
@@ -28,16 +27,16 @@ def load_products():
 @app.route('/')
 def home():
     """Serve the home page"""
-    return render_template('index.html')
+    return send_from_directory('.', 'index.html')
 
 
-@app.route('/pages/<page>')
+@app.route('/pages/<page>.html')
 def serve_page(page):
-    """Serve dynamic pages"""
+    """Serve pages from pages directory"""
     valid_pages = ['about', 'cart', 'checkout', 'contact', 'shop']
     if page in valid_pages:
-        return render_template(f'pages/{page}.html')
-    return "Page not found", 404
+        return send_from_directory('pages', f'{page}.html')
+    return jsonify({'error': 'Page not found'}), 404
 
 
 # Static file routes
