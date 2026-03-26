@@ -82,7 +82,7 @@ export function renderProductCard(product, opts = {}) {
           <span class="rating-count">(${product.reviews})</span>
         </div>
         <div class="product-footer">
-          <div class="product-price"><span>$</span>${product.price}</div>
+          <div class="product-price">${formatPrice(product.price)}</div>
           <button class="add-cart-btn" onclick="addToCart(event, ${product.id})" aria-label="Add to cart" title="Add to Cart">
             🛒
           </button>
