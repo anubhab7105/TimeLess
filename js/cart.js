@@ -80,10 +80,10 @@ export const Cart = {
     return this.getItems().reduce((sum, item) => sum + item.price * item.qty, 0);
   },
 
-  // Get shipping (free over $300)
+  // Get shipping (free over ₹799)
   getShipping() {
     const sub = this.getSubtotal();
-    return sub === 0 ? 0 : sub >= 300 ? 0 : 15;
+    return sub === 0 ? 0 : sub >= 799 ? 0 : 49;
   },
 
   // Get total
@@ -213,7 +213,7 @@ function updateSummary() {
   };
 
   set('summarySubtotal', formatPrice(subtotal));
-  set('summaryShipping', shipping === 0 ? (subtotal > 0 ? 'FREE' : '$0') : formatPrice(shipping));
+  set('summaryShipping', shipping === 0 ? (subtotal > 0 ? 'FREE' : '₹0') : formatPrice(shipping));
   set('summaryTotal', formatPrice(total));
   set('summaryItemCount', `${Cart.getCount()} item${Cart.getCount() !== 1 ? 's' : ''}`);
 }

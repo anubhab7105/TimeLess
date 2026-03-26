@@ -72,11 +72,11 @@
           <div class="filter-group-title">Price Range</div>
           <div class="price-inputs">
             <div class="price-input-wrap">
-              <span>$</span>
+              <span>₹</span>
               <input type="number" id="minPrice" value="0" min="0" max="2000" placeholder="0" />
             </div>
             <div class="price-input-wrap">
-              <span>$</span>
+              <span>₹</span>
               <input type="number" id="maxPrice" value="2000" min="0" max="2000" placeholder="2000" />
             </div>
           </div>
@@ -368,7 +368,7 @@ function updateActiveTags() {
     engine.filters.types = engine.filters.types.filter(x => x !== t);
     document.querySelector(`.type-check[value="${t}"]`).checked = false;
   }}));
-  if (engine.filters.maxPrice < 2000) tags.push({ label: `Max: $${engine.filters.maxPrice}`, clear: () => { engine.setPrice(0,2000); document.getElementById('maxPrice').value=2000; document.getElementById('priceRange').value=2000; } });
+  if (engine.filters.maxPrice < 2000) tags.push({ label: `Max: ₹${engine.filters.maxPrice}`, clear: () => { engine.setPrice(0,2000); document.getElementById('maxPrice').value=2000; document.getElementById('priceRange').value=2000; } });
 
   container.innerHTML = tags.map((t,i) => `
     <span style="background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px 4px 14px;font-size:0.75rem;display:inline-flex;align-items:center;gap:8px;cursor:pointer" data-tag-idx="${i}">

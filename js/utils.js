@@ -71,7 +71,7 @@ export const Toast = {
 
 // ---- Format currency ----
 export function formatPrice(price) {
-  return `$${Number(price).toLocaleString('en-US', { minimumFractionDigits: 0 })}`;
+  return `₹${Number(price).toLocaleString('en-IN', { minimumFractionDigits: 0 })}`;
 }
 
 // ---- Generate star HTML ----
