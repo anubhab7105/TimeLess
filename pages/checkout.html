@@ -147,61 +147,10 @@
             </div>
           </div>
 
-          <!-- Payment Method -->
+          <!-- Order Button -->
           <div class="checkout-form-wrap">
-            <h2 class="form-section-title">
-              <span class="form-section-num">3</span> Payment Method
-            </h2>
-            <div class="payment-methods">
-              <label class="payment-option selected" id="pay-card">
-                <input type="radio" name="payment" value="card" checked />
-                <div>
-                  <div class="payment-label">Credit / Debit Card</div>
-                  <div style="font-size:0.75rem;color:var(--text3)">Secure SSL encrypted</div>
-                </div>
-                <div class="payment-icons">💳</div>
-              </label>
-              <label class="payment-option" id="pay-paypal">
-                <input type="radio" name="payment" value="paypal" />
-                <div>
-                  <div class="payment-label">PayPal</div>
-                  <div style="font-size:0.75rem;color:var(--text3)">Fast & secure</div>
-                </div>
-                <div class="payment-icons">🅿️</div>
-              </label>
-              <label class="payment-option" id="pay-crypto">
-                <input type="radio" name="payment" value="crypto" />
-                <div>
-                  <div class="payment-label">Crypto</div>
-                  <div style="font-size:0.75rem;color:var(--text3)">BTC, ETH, USDT</div>
-                </div>
-                <div class="payment-icons">₿</div>
-              </label>
-            </div>
-
-            <!-- Card fields (shown when card selected) -->
-            <div id="cardFields">
-              <div class="form-grid">
-                <div class="form-group full">
-                  <label class="form-label" for="cardNum">Card Number</label>
-                  <input type="text" class="form-input" id="cardNum" placeholder="1234 5678 9012 3456" maxlength="19" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="cardExpiry">Expiry Date</label>
-                  <input type="text" class="form-input" id="cardExpiry" placeholder="MM/YY" maxlength="5" />
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="cardCVV">CVV</label>
-                  <input type="text" class="form-input" id="cardCVV" placeholder="•••" maxlength="4" />
-                </div>
-              </div>
-              <div style="font-size:0.75rem;color:var(--text3);margin-top:8px">
-                🔒 This is a demo. No real payment is processed.
-              </div>
-            </div>
-
-            <button type="button" class="btn btn-primary btn-lg" id="placeOrderBtn" style="width:100%;justify-content:center;margin-top:24px">
-              Place Order 🛒
+            <button type="button" class="btn btn-primary btn-lg" id="placeOrderBtn" style="width:100%;justify-content:center;">
+              Order via WhatsApp 💬
             </button>
           </div>
         </div>
@@ -280,8 +229,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   renderCheckoutSummary();
-  initPaymentToggle();
-  initCardFormatting();
   initFormValidation();
 });
 
@@ -303,31 +250,6 @@ function renderCheckoutSummary() {
   document.getElementById('coSubtotal').textContent = formatPrice(Cart.getSubtotal());
   document.getElementById('coShipping').textContent = Cart.getShipping() === 0 ? 'FREE' : formatPrice(Cart.getShipping());
   document.getElementById('coTotal').textContent = formatPrice(Cart.getTotal());
-}
-
-function initPaymentToggle() {
-  document.querySelectorAll('input[name="payment"]').forEach(radio => {
-    radio.addEventListener('change', e => {
-      document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
-      e.target.closest('.payment-option').classList.add('selected');
-      document.getElementById('cardFields').style.display = e.target.value === 'card' ? 'block' : 'none';
-    });
-  });
-}
-
-function initCardFormatting() {
-  const cardNum = document.getElementById('cardNum');
-  cardNum.addEventListener('input', e => {
-    let val = e.target.value.replace(/\D/g,'').slice(0,16);
-    e.target.value = val.match(/.{1,4}/g)?.join(' ') || val;
-  });
-
-  const expiry = document.getElementById('cardExpiry');
-  expiry.addEventListener('input', e => {
-    let val = e.target.value.replace(/\D/g,'');
-    if (val.length >= 2) val = val.slice(0,2) + '/' + val.slice(2,4);
-    e.target.value = val;
-  });
 }
 
 function initFormValidation() {
@@ -380,6 +302,9 @@ function placeOrder() {
     const total = Cart.getTotal();
     const email = document.getElementById('email').value;
     const name = `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`;
+    const phone = document.getElementById('phone').value;
+    const address = `${document.getElementById('address').value}, ${document.getElementById('city').value}, ${document.getElementById('state').value}, ${document.getElementById('zip').value}, ${document.getElementById('country').value}`;
+    const notes = document.getElementById('notes').value;
 
     // Build order summary for success screen
     document.getElementById('orderRef').textContent = ref;
@@ -391,14 +316,23 @@ function placeOrder() {
       </div>
     `).join('');
 
-    // Simulate sending email via mailto
-    const subject = encodeURIComponent(`Order Confirmation — TimeLess ${ref}`);
-    const body = encodeURIComponent(
-      `Hi ${name}!\n\nThank you for your order at TimeLess Street Watch Co.\n\nOrder Reference: ${ref}\nTotal: ${formatPrice(total)}\n\nItems:\n${items.map(i => `- ${i.name} x${i.qty} — ${formatPrice(i.price * i.qty)}`).join('\n')}\n\nExpected delivery: 3-5 business days.\n\nThank you for shopping with TimeLess! 🕐`
-    );
+    // Generate WhatsApp Message
+    let text = `*New Order - ${ref}*\n\n`;
+    text += `*Customer Details:*\n`;
+    text += `Name: ${name}\n`;
+    text += `Email: ${email}\n`;
+    text += `Phone: ${phone}\n`;
+    text += `Address: ${address}\n`;
+    if (notes) text += `Notes: ${notes}\n`;
+    text += `\n*Order Items:*\n`;
+    items.forEach(i => {
+      text += `- ${i.name} (x${i.qty}) — ${formatPrice(i.price * i.qty)}\n`;
+    });
+    text += `\n*Total: ${formatPrice(total)}*`;
 
-    // Open mailto as order confirmation
-    window.open(`mailto:${email}?subject=${subject}&body=${body}`, '_blank');
+    const waUrl = `https://wa.me/917439913838?text=${encodeURIComponent(text)}`;
+
+    window.open(waUrl, '_blank');
 
     // Clear cart
     Cart.clear();
@@ -408,8 +342,8 @@ function placeOrder() {
     document.getElementById('orderSuccess').classList.remove('hidden');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    Toast.show('Order placed successfully! 🎉', 'success', 5000);
-  }, 1800);
+    Toast.show('Order redirected to WhatsApp! 🎉', 'success', 5000);
+  }, 1000);
 }
 </script>
 </body>
